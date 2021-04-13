@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jq/jquery.js"></script>
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            left: 46%;
+            position: absolute;
+        }
+        .zidan{
+            border-radius: 10px;
+            background-color: pink;
+            opacity: 0.8;
+            width: 6px;
+            height: 15px;
+            position: fixed;
+            box-shadow: 3px 3px 3px #ccc;
+        }
+        .zhangai{
+            width: 100px;
+            top: 0px;
+            left: 0px;
+            background-color: #cccccc;
+            position: absolute;
+        }
+        .ai{   
+            width: 60px;
+            height: 60px;
+            background-image:url(./img/zhuang.png);
+            transform: rotate(180deg);
+            background-size: cover;
+            position: fixed;
+        }
+        .zhangai2{
+            width: 100px;
+            top: 0px;
+            left: 0px;
+            background-color: #cccccc;
+            position: absolute;
+        }
+        .ai2{   
+            width: 60px;
+            height: 60px;
+            background-image:url(./img/feichuan.png);
+            transform: rotate(180deg);
+            background-size: cover;
+            position: fixed;
+        }
+        #box1>img{
+            width: 80px;
+            height: 80px;
+            background-size: cover;
+        }
+        #bac{
+            width: 100%;
+            height: 100vh;
+        }
+        #bac>img{
+            width: 100%;
+            height: 100vh;
+            opacity: 0.5;
+        }
+        #co{
+            width: 500px;
+            height: 100px;
+            top: 40px;
+            left: 50px;
+            position: fixed;
+            font-size: 30px;
+            color: white;
+        }
+         #co>a{
+            color: rgb(255, 195, 204);
+            opacity: 1;
+        }
+        button{
+            font-size: 30px;
+            width: 250px;
+            height: 150px;
+            background-color: rgb(255, 198, 93);
+            position: absolute;
+            top: 55%;
+            left: 45%;
+            outline: none;
+            border: 0;
+            border-radius:20px ;
+            box-shadow:3px 3px 18px #ccc ;
+            color: white;
+        }
+        #cun{
+            display: none;
+            font-size: 30px;
+            width: 400px;
+            height: 200px;
+            position: absolute;
+            top: 30%;
+            left: 40%;
+            outline: none;
+            border: 0;
+            border-radius:20px ;
+            box-shadow:3px 3px 18px #ccc ;
+            color: rgb(173, 226, 226);
+            line-height: 200px;
+            text-align: center;
+            z-index: 5;
+        }
+        .o{
+            font-size: 50px;
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            outline: none;
+            height: 300px;
+            border: 0;
+            border-radius:20px ;
+            color: rgba(255, 17, 235, 0.24);
+            line-height: 200px;
+            text-align: center;
+            z-index: 5;
+            font-family: "仿宋";
+            font-weight: bold;
+
+            /* transform: rotateY(30deg); */
+            transform: rotateX(60deg);
+            opacity: 0.5;
+            perspective:10000;
+        }
+        #btn2{
+            display: none;
+        }
+    </style>
+    <div id="bac"><img src="./img/fl.jpg"></div>
+    <div class="box" id="box1"><img src="./img/plone.png"></div>
+    <div class="zhangai"></div>
+    <div class="zhangai2"></div>
+    <div id="co">
+        分数:
+        &nbsp;
+        <a></a>
+    </div>
+    <button id="btn1">开始游戏</button>\
+    <button id="btn2">重新开始游戏</button>
+    <div id="cun"></div>
+    <script>
+        var count=0
+        let vv =true;        
+        function sv(){
+            var zidanct=setInterval(function () {
+                var top1 = $("#box1").position().top + 25;
+                var left1 = $("#box1").position().left + 40;
+                let bullet = $('<div/>').addClass('zidan')
+                $("#box1").append(bullet)
+                bullet.css({top:top1,left:left1})
+                if(vv==false){
+                            clearInterval(zidanct)
+                    }
+            },200)
+            var zidanfei=setInterval(function () {
+                $(".zidan").each(function () {
+                    $(this).css('top',$(this).position().top-80)
+                    if($(this).position().top<-500){
+                        $(this).remove()
+                    }
+                })
+                if(vv==false){
+                            clearInterval(zidanfei)
+                    }
+            }, 150);
+        }
+        function za(){
+            var top1 = $(".zhangai").position().top + 25;
+            var left1 = $(".zhangai").position().left + 40;
+            var zidanct=setInterval(function () {
+                let bullet = $('<div/>').addClass('ai')
+                $(".zhangai").append(bullet)
+                bullet.css({top:top1,left:left1})
+                if(vv==false){
+                            clearInterval(zidanct)
+                    }
+            },500)
+            var zidanfei=setInterval(function () {
+                if(vv==false){
+                            clearInterval(zidanfei)
+                    }
+                $(".ai").each(function () {
+                    $(this).css('top',$(this).position().top+50)
+                    if($(this).position().top>1400){
+                        $(this).remove()
+                    }
+                })
+            }
+            , 100);
+            var kk=setInterval(function () {
+                left1=Math.floor(Math.random()*2500)
+                $(".zhangai").css({left:left1})
+                left1=$(".zhangai").position().left
+                if(left1>=2500){
+                    left1=0
+                }
+                if(vv==false){
+                            clearInterval(kk)
+                }
+            },500)
+        }
+        function za2(){
+            var top1 = $(".zhangai2").position().top + 25;
+            var left1 = $(".zhangai2").position().left + 40;
+            var zidanct=setInterval(function () {
+                let bullet = $('<div/>').addClass('ai2')
+                $(".zhangai2").append(bullet)
+                bullet.css({top:top1,left:left1})
+                if(vv==false){
+                            clearInterval(zidanct)
+                    }
+            },1200)
+            var zidanfei=setInterval(function () {
+                if(vv==false){
+                            clearInterval(zidanfei)
+                    }
+                $(".ai2").each(function () {
+                    $(this).css('top',$(this).position().top+50)
+                    if($(this).position().top>1400){
+                        $(this).remove()
+                    }
+                })
+            }
+            , 150);
+            var jj=setInterval(function () {
+                left1=Math.floor(Math.random()*2500)
+                $(".zhangai2").css({left:left1})
+                left1=$(".zhangai2").position().left
+                if(left1>=2500){
+                    left1=0
+                }
+                if(vv==false){
+                            clearInterval(jj)
+                }
+            },500)
+        }
+        function pp(){
+            var pr=setInterval(function () {
+                    if(vv==false){
+                            clearInterval(pr)
+                    }
+                    $("#co>a").html(count)
+                    $(".ai").each(function () {
+                        let top1=$(this).position().top;
+                        let top3=$(this).position().top+$(this).innerHeight()
+                        let left1=$(this).position().left;
+                        let left2=$(this).position().left+$(this).innerWidth();
+                        let j=$(this)
+                        let top4 = $("#box1").position().top;
+                        let top5 = $("#box1").position().top + $("#box1").innerHeight();
+                        let left5 = $("#box1").position().left;
+                        let left6 = $("#box1").position().left +$("#box1").innerWidth();
+                        if(top4>=top1&&top4<=top3||top5<=top3&&top5>=top1){
+                            if(left5<=left1&&left6>=left1||left5<=left1&&left6>=left2||left6>=left2&&left5<=left2||left5>=left1&&left6<=left2){
+                                $("#cun").css({
+                                    display:"block",
+                                })
+                                $("#cun").html("游戏结束，得分:"+count)
+                                vv=false
+                                $("#btn2").css("display","block")
+
+                            }
+                        }
+                        $(".zidan").each(function () { 
+                            let top2=$(this).position().top
+                            let left3=$(this).position().left;
+                            let left4=$(this).position().left+$(this).innerWidth();
+                            if(top1>=top2){
+                                if(left3<=left1&&left4>=left1||left3>=left1&&left4<=left2){
+                                    $(this).remove();
+                                    j.remove();
+                                    count++;
+                                }
+                            }
+                         })
+                    })
+                    $(".ai2").each(function () {
+                        let top1=$(this).position().top;
+                        let top3=$(this).position().top+$(this).innerHeight()
+                        let left1=$(this).position().left;
+                        let left2=$(this).position().left+$(this).innerWidth();
+                        let j=$(this)
+                        let top4 = $("#box1").position().top;
+                        let top5 = $("#box1").position().top + $("#box1").innerHeight();
+                        let left5 = $("#box1").position().left;
+                        let left6 = $("#box1").position().left +$("#box1").innerWidth();
+                        if(top4>=top1&&top4<=top3||top5<=top3&&top5>=top1){
+                            if(left5<=left1&&left6>=left1||left5<=left1&&left6>=left2||left6>=left2&&left5<=left2||left5>=left1&&left6<=left2){
+                                $("#cun").css({
+                                    display:"block",
+                                })
+                                $("#cun").html("游戏结束，得分:"+count)
+                                vv=false
+                                $("#btn2").css("display","block")
+                            }
+                        }
+                        $(".zidan").each(function (){ 
+                            let top2=$(this).position().top
+                            let left3=$(this).position().left;
+                            let left4=$(this).position().left+$(this).innerWidth();
+                            if(top1>=top2){
+                                if(left3<=left1&&left4>=left1||left3>=left1&&left4<=left2){
+                                    $(this).remove();  
+                                }
+                            }
+                         })
+                    })
+                }, 0);
+                
+                
+        }
+        function clearpp(){          
+            var clearpp=setInterval(function() {
+                if(vv==false){
+                    $(".zidan").each(function () {
+                        $(this).remove()
+                    })
+                    $(".ai").each(function () {
+                        $(this).remove()
+                    })
+                    $(".ai2").each(function () {
+                        $(this).remove()
+                    })
+                }
+            })          
+         }
+        function ez(){
+                $(window).mousemove(function(e){
+                    var xx = e.originalEvent.x-45;
+                    var yy = e.originalEvent.y-45;
+                    $('#box1').css({top: yy, left: xx});
+                }) 
+                sv()
+                za()
+                za2()
+                pp()
+                clearpp()
+            }
+        $("#btn1").click(function(){
+            $(this).css("display","none")
+            ez()
+        })
+        $("#btn2").click(function(){
+            $("#btn2").css("display","none")
+            $("#cun").css({display:"none",})
+            vv=true
+            count=0
+            ez()  
+        }) 
+      
+        
+    </script>
+</body>
+</html>
